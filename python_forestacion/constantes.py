@@ -1,3 +1,12 @@
+# --- Constantes para Persistencia ---
+DIRECTORIO_DATA = "data"
+EXTENSION_DATA = ".dat"
+
+# --- Constantes para Concurrencia (threads) ---
+THREAD_JOIN_TIMEOUT = 1.0 # Tiempo en segundos para esperar que los hilos terminen (1.0 segundo es un valor típico)
+SENSOR_LECTURA_INTERVALO = 2 # Segundos entre lecturas de sensores
+CONTROL_RIEGO_INTERVALO = 3 # Segundos entre chequeos del controlador de riego
+
 # --- Constantes para Superficie (m²) ---
 SUPERFICIE_PINO = 2.0
 SUPERFICIE_OLIVO = 3.0
@@ -11,7 +20,7 @@ AGUA_INICIAL_LECHUGA = 10
 AGUA_INICIAL_ZANAHORIA = 5
 
 # --- Constantes de Riego y Plantación ---
-AGUA_DEFAULT_PLANTACION = 50000
+AGUA_DEFAULT_PLANTACION = 5000
 AGUA_MINIMA_RIEGOS = 1000 # Mínimo de agua para iniciar el riego automático
 
 # --- Constantes de Simulación Concurrente ---
@@ -25,6 +34,7 @@ ABSORCION_INVIERNO = 5 # Litros extra de agua absorbida en invierno (factor bajo
 
 # ... (Todo el contenido anterior de constantes.py) ...
 
+# Archivo: python_forestacion/constantes.py (o donde esté TipoOperacion)
 from enum import Enum
 
 class TipoOperacion(Enum):
@@ -34,3 +44,8 @@ class TipoOperacion(Enum):
     COSECHA = "COSECHA"
     PERSISTENCIA = "PERSISTENCIA"
     CONCURRENCIA = "CONCURRENCIA"
+    # --- ¡AGREGA O VERIFICA ESTO! ---
+    CARGA = "CARGA"      # Necesario para la función leer_registro o from_deserialization_exception
+    GUARDADO = "GUARDADO" # Si usas GUARDADO en persistir()
+    LECTURA = "LECTURA"   # Si usas LECTURA en from_deserialization_exception
+    # ---------------------------------

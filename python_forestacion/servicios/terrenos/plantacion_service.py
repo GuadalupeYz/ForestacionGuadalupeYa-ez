@@ -7,20 +7,27 @@ from python_forestacion.excepciones.superficie_insuficiente_exception import Sup
 from python_forestacion.excepciones.agua_agotada_exception import AguaAgotadaException
 from python_forestacion.constantes import AGUA_MINIMA_RIEGOS
 from typing import List
-
 # Implementación CORREGIDA del método plantar en PlantacionService
 from python_forestacion.patrones.factory.cultivo_factory import CultivoFactory
 from python_forestacion.entidades.terrenos.plantacion import Plantacion
 from python_forestacion.excepciones.superficie_insuficiente_exception import SuperficieInsuficienteException
+from python_forestacion.servicios.cultivos.cultivo_service_registry import CultivoServiceRegistry
 
 class PlantacionService:
-    # ... (Otros métodos) ...
+    
+    def __init__(self):
+        # Es crucial que PlantacionService tenga una referencia a la Registry
+        self._cultivo_registry = CultivoServiceRegistry() # O CultivoServiceRegistry.obtener_instancia()
+
+    # CRÍTICO: Implementar el método getter para resolver el error fatal.
+    def get_cultivo_service_registry(self) -> CultivoServiceRegistry:
+        """Retorna la instancia del Singleton CultivoServiceRegistry."""
+        return self._cultivo_registry 
     
     def plantar(self, plantacion: Plantacion, tipo_cultivo: str, cantidad: int, **kwargs):
         """
         Planta una cantidad de cultivos de un tipo específico (US-006).
         """
-        
         factory = CultivoFactory()
         superficie_requerida = factory.calcular_superficie(tipo_cultivo, cantidad)
         
@@ -50,9 +57,6 @@ class PlantacionService:
             plantacion.add_cultivo(cultivo)
             
         print(f"[PLANTACIÓN]: {cantidad} {tipo_cultivo}(s) plantados. Superficie disponible restante: {superficie_disponible - superficie_requerida:.2f} m².")
-
-class PlantacionService:
-    """Servicio para la gestión de Plantaciones y Cultivos (US-002, US-004, US-008)."""
 
     def _get_superficie_ocupada(self, plantacion: Plantacion) -> float:
         """Calcula la superficie total ocupada por los cultivos."""

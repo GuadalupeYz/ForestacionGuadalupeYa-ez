@@ -4,6 +4,7 @@ from ..terrenos.registro_forestal_service import RegistroForestalService
 from ..cultivos.cultivo_service_registry import CultivoServiceRegistry
 from python_forestacion.entidades.terrenos.tierra import Tierra
 from python_forestacion.entidades.terrenos.plantacion import Plantacion
+from .paquete import Paquete
 from typing import Any, Dict
 
 class FincasService:
@@ -18,7 +19,11 @@ class FincasService:
         # Inicializar servicios internos necesarios
         self._plantacion_service = PlantacionService()
         self._cultivo_registry = CultivoServiceRegistry.get_instance()
+        self._fincas = [] 
         
+    def add_finca(self, finca: Any):
+     self._fincas.append(finca)
+
     def crear_plantacion(self, id_padron: int, superficie: float, domicilio: str, nombre_plantacion: str) -> Plantacion:
         """Crea una Tierra y una Plantacion asociadas (US-001)."""
         nueva_tierra = Tierra(id_padron, superficie, domicilio)
@@ -37,3 +42,21 @@ class FincasService:
     def crear_paquetes(self, cultivos: list, nombre_lote: str):
         # Simula la lógica de empaquetado (US-019)
         print(f"[PAQUETES]: Creado lote '{nombre_lote}' con {len(cultivos)} unidades.")
+
+
+    def cosechar_y_empaquetar(self, plantacion):
+        """Simula la cosecha y creación de paquetes para todos los cultivos"""
+        print(f"-> Cosechando todos los cultivos de '{plantacion._nombre}'...")
+        cultivos = plantacion.get_cultivos()
+        for cultivo in cultivos:
+            print(f"   Cosechando: {cultivo}")
+        self.crear_paquetes(cultivos, f"Lote_{plantacion._nombre}")
+        cultivos_cosechados = []
+        for finca in self._fincas:
+          plantacion = finca.get_plantacion()
+        for cultivo in plantacion.get_cultivos():
+            if isinstance(cultivo):
+                cultivos_cosechados.append(cultivo)
+
+        paquetes = [Paquete(cultivo) for cultivo in cultivos_cosechados]
+        return paquetes

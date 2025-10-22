@@ -14,7 +14,7 @@ class ControlRiegoTask(Observer[EventoSensor], threading.Thread):
         self._sensor_temp = sensor_temp
         self._sensor_humedad = sensor_humedad
         self._riego_callback = riego_callback
-        
+        self._activo = True
         self._ultima_temp = 0.0
         self._ultima_humedad = 0.0
         
@@ -45,10 +45,9 @@ class ControlRiegoTask(Observer[EventoSensor], threading.Thread):
             time.sleep(1)
 
     def run(self):
-        print("[CONTROLADOR RIEGO]: Controlador de riego iniciado. Esperando lecturas...")
-        while self._running:
-            time.sleep(1)
-        print("[CONTROLADOR RIEGO]: Controlador detenido.")
+        while self._activo:
+            # lógica de riego
+            pass
 
-    def stop(self):
-        self._running = False
+    def detener(self):
+        self._activo = False

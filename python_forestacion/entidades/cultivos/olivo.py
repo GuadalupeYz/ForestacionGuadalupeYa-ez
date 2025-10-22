@@ -1,31 +1,43 @@
-# En python_forestacion/entidades/cultivos/olivo.py
+# python_forestacion/entidades/cultivos/olivo.py
 from .arbol import Arbol
-from .tipo_aceituna import TipoAceituna
+from .tipo_aceituna import TipoAceituna 
+# ELIMINAR CUALQUIER OTRA IMPORTACIÓN DE TIPOACEITUNA
 from python_forestacion.constantes import SUPERFICIE_OLIVO, AGUA_INICIAL_OLIVO
 
 class Olivo(Arbol):
-    """Cultivo concreto: Olivo (US-006)."""
-    # Constructor ÚNICO y CORRECTO
-    def __init__(self, tipo_aceituna: TipoAceituna, edad: int = 5, **kwargs):
-        # Llama al constructor de Arbol, pasando todos los parámetros necesarios.
-        # Aquí también se inicializa self._edad en la clase base Arbol.
+    
+    def __init__(self, **kwargs):
+        
+        # 1. Extraer y preparar el Enum ANTES de llamar a super()
+        variedad_str = kwargs.pop('variedad', kwargs.pop('tipo_aceituna', 'MANZANILLA'))
+        
+        try:
+             # Aquí variedad_enum es temporal
+             variedad_enum = TipoAceituna[variedad_str.upper()]
+        except KeyError:
+             variedad_enum = TipoAceituna.MANZANILLA
+        
+        # 2. Asignar el atributo específico del Olivo
+        # ¡IMPORTANTE! Lo ponemos aquí para que el objeto se "complete" antes del super si es posible.
+        self._tipo_aceituna = variedad_enum 
+
+        # 3. Llamar a la clase padre (Arbol)
         super().__init__(
-            nombre="Olivo", 
-            edad=edad, 
-            superficie=SUPERFICIE_OLIVO, # Usar la constante aquí si es preferible
-            agua_inicial=AGUA_INICIAL_OLIVO, # Pasar agua inicial si Arbol lo acepta
-            **kwargs
-        ) 
+            nombre="Olivo",
+            agua_inicial=kwargs.pop('agua_inicial', AGUA_INICIAL_OLIVO),
+            superficie=kwargs.pop('superficie', SUPERFICIE_OLIVO),
+            **kwargs 
+        )
 
-        self._tipo_aceituna = tipo_aceituna
-        # NO NECESITAS self._edad = edad aquí, ya que Arbol ya lo hace.
+    # 4. Implementación CRÍTICA del método abstracto
+    # Asegúrate de que no tenga @abstractmethod y tenga 4 espacios de indentación
+    def __str__(self) -> str:
+        return f"Olivo (Tipo Aceituna: {self._tipo_aceituna.value}, Edad: {self.get_edad_anios()} años)"
 
-    def get_tipo_aceituna(self) -> TipoAceituna: 
+    # --- Getters ---
+
+    def get_variedad(self) -> TipoAceituna:
         return self._tipo_aceituna
 
-    def __str__(self) -> str:
-        return f"Olivo (Tipo Aceituna: {self._tipo_aceituna.value}, Edad: {self.get_edad()} años)"
-    
-    def get_edad(self) -> int:
-        """Devuelve la edad del árbol. El atributo _edad se inicializa en la clase Arbol."""
-        return self._edad
+    def get_tipo_aceituna(self):
+        return self._tipo_aceituna

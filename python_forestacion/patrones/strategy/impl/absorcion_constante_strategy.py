@@ -1,14 +1,15 @@
-# Importación CORREGIDA usando ruta relativa (..)
+# Contenido CORREGIDO de python_forestacion/patrones/strategy/impl/absorcion_constante_strategy.py
+
 from ..absorcion_agua_strategy import EstrategiaAbsorcion 
 from python_forestacion.entidades.cultivos.cultivo import Cultivo
 
 class AbsorcionConstanteStrategy(EstrategiaAbsorcion[Cultivo]):
-    """
-    Estrategia concreta: Absorción constante de agua.
-    Aplica una absorción fija, típica de hortalizas o árboles jóvenes (US-008).
-    """
     
+    # CRÍTICO: Añadir un valor por defecto (ej. 1.0) para que el argumento sea opcional.
+    def __init__(self, cantidad_constante: float = 1.0): 
+        self._cantidad_constante = cantidad_constante
+
     def absorber_agua(self, cultivo: Cultivo):
-        """Implementa la absorción constante (ej: 5 litros por riego)."""
-        CANTIDAD_ABSORBIDA = 5
-        cultivo.set_agua(cultivo.get_agua() + CANTIDAD_ABSORBIDA)
+        """Implementa la absorción constante, usando el valor del constructor."""
+        # Retornamos la cantidad para que CultivoService.regar la aplique.
+        return self._cantidad_constante
