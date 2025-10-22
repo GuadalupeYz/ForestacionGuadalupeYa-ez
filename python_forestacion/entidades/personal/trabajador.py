@@ -1,8 +1,7 @@
-# Archivo: python_forestacion/entidades/personal/trabajador.py
 from typing import List, Optional
-from python_forestacion.entidades.personal.tarea import Tarea # Importar Tarea
-from python_forestacion.entidades.personal.apto_medico import AptoMedico # Importar AptoMedico
-import copy # Necesario para defensive copy (US-014, US-017)
+from python_forestacion.entidades.personal.tarea import Tarea  # Importar Tarea
+from python_forestacion.entidades.personal.apto_medico import AptoMedico  # Importar AptoMedico
+import copy  # Necesario para defensive copy (US-014, US-017)
 
 class Trabajador:
     """Representa un trabajador con tareas asignadas y apto médico."""
@@ -22,6 +21,10 @@ class Trabajador:
     def get_tareas_asignadas(self) -> List[Tarea]:
         """Retorna una copia inmutable (defensive copy) de la lista de tareas."""
         return copy.deepcopy(self._tareas)
+
+    def get_tareas(self):
+        """Alias de get_tareas_asignadas() para compatibilidad con el servicio."""
+        return self.get_tareas_asignadas()
 
     def get_apto_medico(self) -> Optional[AptoMedico]:
         return self._apto_medico

@@ -18,8 +18,9 @@ class ControlRiegoTask(Observer[EventoSensor], threading.Thread):
         self._ultima_temp = 0.0
         self._ultima_humedad = 0.0
         
-        self._sensor_temp.add_observer(self)
-        self._sensor_humedad.add_observer(self)
+        self._sensor_temp.agregar_observador(self)
+        self._sensor_humedad.agregar_observador(self)
+
 
     def update(self, observable: Any, evento: EventoSensor):
         """Método de Observer: recibe las lecturas y chequea la condición de riego (US-012)."""

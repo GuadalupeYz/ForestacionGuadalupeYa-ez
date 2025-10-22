@@ -8,13 +8,17 @@ from python_forestacion.constantes import TIEMPO_LECTURA_SENSOR
 class TemperaturaReaderTask(Observable[EventoSensor], threading.Thread):
     """Simula un sensor de temperatura, notifica a los observadores (US-010)."""
     
-    def __init__(self, controlador):
+    def __init__(self):
         Observable.__init__(self)
         threading.Thread.__init__(self, daemon=True)
         self._running = True
         self._lectura_actual = 20.0
-        self._controlador = controlador
-    
+
+    def agregar_observador(self, observador):
+     """Compatibilidad con ControlRiegoTask (Observer Pattern)."""
+     self.add_observer(observador)
+
+
     def run(self):
         """Método principal del hilo - ejecuta el ciclo de lectura"""
         print(f"[SENSOR TEMP]: Sensor de temperatura iniciado.")

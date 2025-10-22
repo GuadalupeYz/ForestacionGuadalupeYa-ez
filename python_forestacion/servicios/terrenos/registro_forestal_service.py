@@ -26,6 +26,19 @@ class RegistroForestalService:
         if not os.path.exists(self.DATA_DIR):
             os.makedirs(self.DATA_DIR)
 
+    @staticmethod
+    def crear_registro(padron, propietario, domicilio, superficie, plantacion):
+        """Crea un nuevo registro forestal con los datos básicos."""
+        registro = {
+            "padron": padron,
+            "propietario": propietario,
+            "domicilio": domicilio,
+            "superficie": superficie,
+            "plantacion": plantacion
+        }
+        print(f"[OK] Registro Forestal creado para {propietario}.")
+        return registro
+
     # --- Persistencia (US-021, US-022) ---
 
     def persistir(self, registro: RegistroForestal):

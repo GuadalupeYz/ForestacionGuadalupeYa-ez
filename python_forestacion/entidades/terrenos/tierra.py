@@ -14,7 +14,6 @@ class Tierra:
 
     def get_superficie(self) -> float: 
         return self._superficie
-    
 
     def get_domicilio(self):  # <- asegurate que se llama así
         return self._domicilio
@@ -22,3 +21,7 @@ class Tierra:
     def set_finca(self, plantacion: 'Plantacion'): self._finca = plantacion # Usamos comillas
     def get_finca(self) -> Optional['Plantacion']: return self._finca # Usamos comillas
     # ... (Otros getters necesarios)
+
+    def get_id_padron(self):
+     return self._id_padron
+    

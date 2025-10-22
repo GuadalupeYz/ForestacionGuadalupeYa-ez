@@ -25,30 +25,19 @@ class TrabajadorService:
         """Método estático para el ordenamiento de tareas (US-016)."""
         return tarea.get_id()
 
-    def trabajar(self, trabajador: Trabajador, fecha: date, util: Herramienta) -> bool:
-        """
-        Ejecuta las tareas asignadas al trabajador para la fecha dada (US-016).
-        Las tareas se ejecutan en orden ID descendente.
-        """
-        if not self.puede_trabajar(trabajador):
-            print(f"[!] {trabajador.get_nombre()} NO puede trabajar: Sin apto medico")
-            return False
+    def trabajar(self, trabajador, fecha, util):
+    #Simula que un trabajador realiza sus tareas si cuenta con apto médico.
+    #Caso contrario, se muestra un mensaje de advertencia y no ejecuta tareas.
+    
+     apto = trabajador.get_apto_medico()
+     if not apto or not apto.esta_apto():
+        print(f"[!] {trabajador.get_nombre()} NO puede trabajar: Sin apto medico")
+        return False
 
-        print(f"[OK] {trabajador.get_nombre()} trabajando el {fecha}")
+     print(f"[OK] {trabajador.get_nombre()} trabajando el {fecha}")
+     tareas = sorted(trabajador.get_tareas(), key=lambda t: t.get_id(), reverse=True)
+     for tarea in tareas:
+         print(f"      Tarea #{tarea.get_id()}: {tarea.get_nombre()}")
+         print(f"      Usando: {util.get_nombre()}")
+     return True
 
-        # 1. Obtener y ordenar tareas por ID descendente (US-016)
-        tareas_pendientes = [
-            t for t in trabajador.get_tareas_asignadas() 
-            if t.get_estado() == EstadoTarea.PENDIENTE and t.get_fecha_programada() == fecha
-        ]
-        
-        # Ordenamiento ID descendente (3, 2, 1)
-        tareas_pendientes.sort(key=TrabajadorService._obtener_id_tarea, reverse=True) 
-        
-        # 2. Ejecutar y marcar como completada
-        for tarea in tareas_pendientes:
-            print(f"      Tarea #{tarea.get_id()}: {tarea.get_nombre()}")
-            print(f"      Usando: {util.get_nombre()}")
-            tarea.marcar_completada() # Aunque en esta simple simulación no modificamos la lista del trabajador
-
-        return True
