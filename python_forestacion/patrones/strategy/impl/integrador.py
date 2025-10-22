@@ -1,7 +1,7 @@
 """
 Archivo integrador generado automaticamente
 Directorio: /home/guadalupe/Documentos/DiseñoSistemas/Parcial/ForestacionGuadalupeYa-ez/python_forestacion/patrones/strategy/impl
-Fecha: 2025-10-22 10:21:44
+Fecha: 2025-10-22 12:40:53
 Total de archivos integrados: 3
 """
 
